@@ -1,5 +1,3 @@
-import React from "react";
-
 interface TextureSwitcherProps {
   current: "color2" | "color3";
   onSwitch: (next: "color2" | "color3") => void;
@@ -15,7 +13,8 @@ export function TextureSwitcher({ current, onSwitch }: TextureSwitcherProps) {
         Switch to {current === "color2" ? "color3.png" : "color2.png"}
       </button>
       <div style={{ marginTop: 8, fontSize: 14 }}>
-        Current texture: <b>{current === "color2" ? "color2.png" : "color3.png"}</b>
+        Current texture:{" "}
+        <b>{current === "color2" ? "color2.png" : "color3.png"}</b>
       </div>
     </section>
   );
