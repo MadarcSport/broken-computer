@@ -17,6 +17,7 @@ function RotatingCube({ position = [0, 0, 0] }: RotatingCubeProps) {
     metalness: "/material/metalness2048.png",
     height: "/material/height4.png",
     matcap: "/material/matcaps/3.png",
+    alpha: "/material/tryAlpha02.png",
   });
 
   // Option A: start Nearest filter imported from three at the top
@@ -65,6 +66,8 @@ function RotatingCube({ position = [0, 0, 0] }: RotatingCubeProps) {
         displacementScale={0.0}
         // roughness={0.2}
         // metalness={0.7}
+        // alphaMap={textures.alpha}
+        transparent={false}
       />
     </mesh>
   );

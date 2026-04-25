@@ -10,7 +10,7 @@
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(135deg, #121212 0%, #212121 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
     /* background: linear-gradient(135deg, #ffffff 0%, #dadada 100%); */
 
 }
@@ -38,7 +38,30 @@ header p {
 .canvas-container {
   flex: 1;
   width: 100%;
+  height: calc(100vh - 120px); /* fallback for desktop, adjust header height if needed */
   overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .app {
+    height: 100dvh;
+    min-height: 0;
+  }
+  header {
+    padding: 1rem;
+  }
+  .canvas-container {
+    height: calc(100dvh - 90px); /* adjust header height for mobile */
+    min-height: 200px;
+    max-height: 100dvh;
+  }
+  canvas {
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    display: block;
+  }
 }
 
 .canvas-overlay {
