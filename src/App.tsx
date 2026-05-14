@@ -9,11 +9,11 @@ function App() {
         <p>MotherBoard in the cube geometry</p>
       </header>
       <div className="canvas-container">
-        {/* <img
-      src="/public/material/background/marcBack001.png"
+        <img
+      src="/material/background/marcBack04.jpg"
       alt="Overlay"
       className="canvas-overlay"
-    /> */}
+    />
         <Scene3D_2 />
       </div>
     </div>

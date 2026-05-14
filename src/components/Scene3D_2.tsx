@@ -108,20 +108,20 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
         <Sphere args={[0.45, 32, 32]}>
           <meshStandardMaterial
             ref={innerSphereMaterialRef}
-            color="#ce540e"
-            emissive="#ff7a00"
-            emissiveIntensity={0.2}
-            roughness={0.8}
-            metalness={0.05}
+            color="#e85602"
+            emissive="#ffa200"
+            emissiveIntensity={0.1}
+            roughness={0.2}
+            metalness={0.8}
             transparent={true}
             onBeforeCompile={(shader: {
               uniforms: Record<string, { value: number }>;
               fragmentShader: string;
             }) => {
               shader.uniforms.uTime = { value: 0 };
-              shader.uniforms.uPulseSpeed = { value: 0.3 };
-              shader.uniforms.uPulseMin = { value: 0.5 };
-              shader.uniforms.uPulseAmp = { value: 0.9 };
+              shader.uniforms.uPulseSpeed = { value: 0.8 };
+              shader.uniforms.uPulseMin = { value: 0.1 };
+              shader.uniforms.uPulseAmp = { value: 1.0 };
 
               shader.fragmentShader = shader.fragmentShader.replace(
                 "void main() {",
