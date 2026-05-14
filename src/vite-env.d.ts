@@ -17,6 +17,8 @@ declare module "react" {
       ambientLight: any;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       pointLight: any;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      hemisphereLight: any;
     }
   }
 }
