@@ -156,25 +156,19 @@ export function Scene3D_2() {
     useState<RingEffectId>("iridescentOilFilm");
   const tintOptions = [
     { label: "Red", value: "#be0e0e" },
-    { label: "#084382", value: "#084382" },
-    { label: "#141617", value: "#141617" },
+    { label: "Blue", value: "#084382" },
+    { label: "Black", value: "#141617" },
   ];
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        position: "relative",
-      }}
-    >
+    <div className="scene-root">
       <Canvas camera={{ position: [4, 2, 2], fov: 45 }}>
         <ambientLight intensity={5} />
         <pointLight position={[10, 10, 10]} intensity={20} />
         <hemisphereLight
           color={0x084382}
           groundColor={0x084382}
-          intensity={60}
+          intensity={80}
         />
         <SoftRain />
         <OnlyRings scale={[0.27, 0.27, 0.27]} effect={selectedRingEffect} />
@@ -189,40 +183,14 @@ export function Scene3D_2() {
         onSelectEffect={setSelectedRingEffect}
       />
 
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          bottom: 20,
-          transform: "translateX(-50%)",
-          display: "flex",
-          gap: 10,
-          padding: "10px 12px",
-          background: "rgba(20, 22, 23, 0.45)",
-          border: "1px solid rgba(255, 255, 255, 0.22)",
-          borderRadius: 12,
-          backdropFilter: "blur(6px)",
-        }}
-      >
+      <div className="tint-panel">
         {tintOptions.map((option) => (
           <button
             key={option.value}
             type="button"
             onClick={() => setSelectedTint(option.value)}
-            style={{
-              minWidth: 88,
-              padding: "8px 10px",
-              borderRadius: 8,
-              border:
-                selectedTint === option.value
-                  ? "2px solid #ffffff"
-                  : "1px solid rgba(255, 255, 255, 0.4)",
-              background: option.value,
-              color: "#ffffff",
-              cursor: "pointer",
-              fontWeight: 600,
-              textShadow: "0 1px 2px rgba(0,0,0,0.6)",
-            }}
+            className={`tint-button ${selectedTint === option.value ? "is-selected" : ""}`}
+            style={{ background: option.value }}
           >
             {option.label}
           </button>

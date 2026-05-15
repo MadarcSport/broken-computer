@@ -5,28 +5,19 @@ interface RingEffectPanelProps {
   onSelectEffect: (effect: RingEffectId) => void;
 }
 
+const MOBILE_SHORT_LABELS: Record<RingEffectId, string> = {
+  iridescentOilFilm: "Arc",
+  wireframeGlowOverlay: "Wire",
+  dissolveRebuild: "Diss",
+  chromaticRefractionFake: "Radar",
+};
+
 export function RingEffectPanel({
   selectedEffect,
   onSelectEffect,
 }: RingEffectPanelProps) {
   return (
-    <div
-      style={{
-        position: "absolute",
-        left: 14,
-        top: "50%",
-        transform: "translateY(-50%)",
-        display: "flex",
-        flexDirection: "column",
-        gap: 8,
-        padding: "10px",
-        background: "rgba(12, 16, 22, 0.52)",
-        border: "1px solid rgba(255, 255, 255, 0.2)",
-        borderRadius: 12,
-        backdropFilter: "blur(5px)",
-        zIndex: 5,
-      }}
-    >
+    <div className="ring-effect-panel">
       {RING_EFFECT_OPTIONS.map((option) => {
         const isSelected = selectedEffect === option.id;
 
@@ -35,23 +26,14 @@ export function RingEffectPanel({
             key={option.id}
             type="button"
             onClick={() => onSelectEffect(option.id)}
-            style={{
-              minWidth: 148,
-              textAlign: "left",
-              padding: "8px 10px",
-              borderRadius: 8,
-              border: isSelected
-                ? "2px solid #7fe5ff"
-                : "1px solid rgba(255, 255, 255, 0.35)",
-              background: isSelected
-                ? "rgba(22, 55, 71, 0.82)"
-                : "rgba(12, 16, 22, 0.8)",
-              color: "#f2f7ff",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`ring-effect-button ${isSelected ? "is-selected" : ""}`}
+            title={option.label}
+            aria-label={option.label}
           >
-            {option.label}
+            <span className="ring-label-full">{option.label}</span>
+            <span className="ring-label-short">
+              {MOBILE_SHORT_LABELS[option.id]}
+            </span>
           </button>
         );
       })}
