@@ -32,7 +32,7 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
     metalness: "/material/metalness2048.png",
     height: "/material/height4.png",
     matcap: "/material/matcaps/3.png",
-    alpha: "/material/tryAlpha03.png",
+    alpha: "/material/tryAlpha04.png",
     circuitBall: "/material/circuitBall1Color.png",
   });
 
@@ -78,7 +78,7 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
     <mesh ref={meshRef} position={position} scale={1.5}>
       <boxGeometry args={[1, 1, 1, 2, 2, 2]} />
       <meshStandardMaterial
-        envMapIntensity={0.2}
+        envMapIntensity={0.12}
         map={textures.color}
         aoMap={textures.ao}
         aoMapIntensity={0.8}
@@ -175,7 +175,7 @@ export function Scene3D_2() {
         <RotatingCube position={[0, 0, 0]} tintHex={selectedTint} />
         <OrbitControls makeDefault enablePan={false} enableZoom={false} />
         {/* <Environment files="/material/rosendal.hdr" background={false} /> */}
-        <Environment files="/material/studio.hdr" background={false} />
+        <Environment files="/material/studio2.hdr" background={false} />
       </Canvas>
 
       <RingEffectPanel
