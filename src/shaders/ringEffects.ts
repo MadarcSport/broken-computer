@@ -1,6 +1,6 @@
 export type RingEffectId =
   | "iridescentOilFilm"
-  | "wireframeGlowOverlay"
+  | "holographicFresnel"
   | "dissolveRebuild"
   | "chromaticRefractionFake";
 
@@ -9,7 +9,7 @@ export const RING_EFFECT_OPTIONS: ReadonlyArray<{
   label: string;
 }> = [
   { id: "iridescentOilFilm", label: "Electric Arc" },
-  { id: "wireframeGlowOverlay", label: "Wireframe Glow" },
+  { id: "holographicFresnel", label: "Holographic Fresnel" },
   { id: "dissolveRebuild", label: "Dissolve + Rebuild" },
   { id: "chromaticRefractionFake", label: "Radar Sweep" },
 ] as const;
@@ -78,15 +78,22 @@ const EFFECT_GLSL: Record<RingEffectId, string> = {
   gl_FragColor.rgb += arcColor * arcEnergy;
   gl_FragColor.rgb += arcColor * pow(arcMask, 8.0) * 1.8;
 `,
-  wireframeGlowOverlay: `
-  vec2 gridUv = abs(fract(vViewPosition.xy * 9.0) - 0.5);
-  float lineX = 1.0 - smoothstep(0.0, 0.04, gridUv.x);
-  float lineY = 1.0 - smoothstep(0.0, 0.04, gridUv.y);
-  float lineMask = clamp(max(lineX, lineY), 0.0, 1.0);
-  float pulse = 0.55 + 0.45 * sin(uTime * 5.0 + (vViewPosition.x + vViewPosition.y) * 10.0);
-  vec3 glow = vec3(0.2, 0.9, 1.0) * lineMask * (0.5 + pulse * 0.9);
+  holographicFresnel: `
+  vec3 n = normalize(normal);
+  vec3 viewDir = normalize(-vViewPosition);
+  float fresnel = pow(1.0 - max(dot(n, viewDir), 0.0), 3.0);
 
-  gl_FragColor.rgb += glow;
+  float scan = sin(vViewPosition.y * 58.0 - uTime * 7.5) * 0.5 + 0.5;
+  float shimmer = noise3(vViewPosition * 10.0 + vec3(0.0, uTime * 1.2, 0.0));
+  float pulse = 0.7 + 0.3 * sin(uTime * 2.4);
+
+  vec3 holoA = vec3(0.08, 0.85, 1.0);
+  vec3 holoB = vec3(0.75, 0.25, 1.0);
+  vec3 holoColor = mix(holoA, holoB, clamp(scan * 0.65 + shimmer * 0.55, 0.0, 1.0));
+
+  float rimEnergy = fresnel * (0.7 + scan * 0.6 + shimmer * 0.5) * pulse;
+  gl_FragColor.rgb += holoColor * rimEnergy;
+  gl_FragColor.rgb += vec3(0.5, 0.95, 1.0) * pow(fresnel, 4.5) * 0.85;
 `,
   dissolveRebuild: `
   float noiseField = noise3(vViewPosition * 6.0 + vec3(0.0, uTime * 0.9, 0.0));

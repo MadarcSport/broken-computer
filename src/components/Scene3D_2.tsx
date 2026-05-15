@@ -109,7 +109,7 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
       />
 
       <mesh position={[0, 0, 0]}>
-        <Sphere args={[0.45, 32, 32]}>
+        <Sphere args={[0.31, 32, 32]}>
           <meshStandardMaterial
             ref={innerSphereMaterialRef}
             map={textures.circuitBall}
@@ -124,8 +124,8 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
               fragmentShader: string;
             }) => {
               shader.uniforms.uTime = { value: 0 };
-              shader.uniforms.uPulseSpeed = { value: 0.8 };
-              shader.uniforms.uPulseMin = { value: 0.1 };
+              shader.uniforms.uPulseSpeed = { value: 0.2 };
+              shader.uniforms.uPulseMin = { value: 0.4 };
               shader.uniforms.uPulseAmp = { value: 1.0 };
 
               shader.fragmentShader = shader.fragmentShader.replace(
@@ -155,8 +155,8 @@ export function Scene3D_2() {
   const [selectedRingEffect, setSelectedRingEffect] =
     useState<RingEffectId>("iridescentOilFilm");
   const tintOptions = [
-    { label: "Red", value: "#be0e0e" },
-    { label: "Blue", value: "#084382" },
+    { label: "Red", value: "#d91010" },
+    { label: "Blue", value: "#0b4d92" },
     { label: "Black", value: "#141617" },
   ];
 
