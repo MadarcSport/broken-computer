@@ -8,6 +8,9 @@ import {
 } from "@react-three/drei";
 import { Color, Mesh, MeshStandardMaterial, NearestFilter } from "three";
 import { SoftRain } from "./SoftRain.tsx";
+import { Model as OnlyRings } from "./OnlyRings-1.tsx";
+import { RingEffectPanel } from "./RingEffectPanel";
+import { type RingEffectId } from "../shaders/ringEffects";
 
 interface RotatingCubeProps {
   position?: [number, number, number];
@@ -30,6 +33,7 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
     height: "/material/height4.png",
     matcap: "/material/matcaps/3.png",
     alpha: "/material/tryAlpha03.png",
+    circuitBall: "/material/circuitBall1Color.png",
   });
 
   // Option A: start Nearest filter imported from three at the top
@@ -60,8 +64,8 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
 
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.0004; //here stop the rotation on the x-axis
-      meshRef.current.rotation.y += 0.0004; // here stop the rotation on the y-axis
+      meshRef.current.rotation.x += 0.0; //here stop the rotation on the x-axis
+      meshRef.current.rotation.y += 0.0; // here stop the rotation on the y-axis
       // meshRef.current.rotation.z += 0.001;
     }
 
@@ -108,6 +112,7 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
         <Sphere args={[0.45, 32, 32]}>
           <meshStandardMaterial
             ref={innerSphereMaterialRef}
+            map={textures.circuitBall}
             color="#e85602"
             emissive="#ffa200"
             emissiveIntensity={0.1}
@@ -147,6 +152,8 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
 }
 export function Scene3D_2() {
   const [selectedTint, setSelectedTint] = useState<string>("#be0e0e");
+  const [selectedRingEffect, setSelectedRingEffect] =
+    useState<RingEffectId>("iridescentOilFilm");
   const tintOptions = [
     { label: "Red", value: "#be0e0e" },
     { label: "#084382", value: "#084382" },
@@ -161,16 +168,26 @@ export function Scene3D_2() {
         position: "relative",
       }}
     >
-      <Canvas camera={{ position: [4, 3, 1], fov: 45 }}>
+      <Canvas camera={{ position: [4, 2, 2], fov: 45 }}>
         <ambientLight intensity={5} />
         <pointLight position={[10, 10, 10]} intensity={20} />
-        <hemisphereLight color={0x084382} groundColor={0x084382} intensity={60} />
+        <hemisphereLight
+          color={0x084382}
+          groundColor={0x084382}
+          intensity={60}
+        />
         <SoftRain />
+        <OnlyRings scale={[0.27, 0.27, 0.27]} effect={selectedRingEffect} />
         <RotatingCube position={[0, 0, 0]} tintHex={selectedTint} />
         <OrbitControls makeDefault enablePan={false} enableZoom={false} />
         {/* <Environment files="/material/rosendal.hdr" background={false} /> */}
         <Environment files="/material/studio.hdr" background={false} />
       </Canvas>
+
+      <RingEffectPanel
+        selectedEffect={selectedRingEffect}
+        onSelectEffect={setSelectedRingEffect}
+      />
 
       <div
         style={{
