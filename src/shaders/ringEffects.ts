@@ -110,7 +110,7 @@ const EFFECT_GLSL: Record<RingEffectId, string> = {
   chromaticRefractionFake: `
   vec2 p = normalize(vViewPosition.xz + vec2(0.0001));
   float angle = atan(p.y, p.x);
-  float sweep = fract(uTime * 0.6) * 6.28318530718;
+  float sweep = fract(uTime * 0.2) * 6.28318530718;
   float d = abs(mod(angle - sweep + 3.14159265359, 6.28318530718) - 3.14159265359);
 
   float beam = 1.0 - smoothstep(0.0, 0.32, d);

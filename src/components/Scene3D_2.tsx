@@ -151,24 +151,24 @@ function RotatingCube({ position = [0, 0, 0], tintHex }: RotatingCubeProps) {
   );
 }
 export function Scene3D_2() {
-  const [selectedTint, setSelectedTint] = useState<string>("#be0e0e");
+  const [selectedTint, setSelectedTint] = useState<string>("#d91010");
   const [selectedRingEffect, setSelectedRingEffect] =
     useState<RingEffectId>("iridescentOilFilm");
   const tintOptions = [
-    { label: "Red", value: "#d91010" },
-    { label: "Blue", value: "#0b4d92" },
-    { label: "Black", value: "#141617" },
+    { label: "Red", value: "#8f0808" },
+    { label: "Blue", value: "#02507b" },
+    { label: "White", value: "#161616" },
   ];
 
   return (
     <div className="scene-root">
       <Canvas camera={{ position: [4, 2, 2], fov: 45 }}>
-        <ambientLight intensity={5} />
+        <ambientLight intensity={2} />
         <pointLight position={[10, 10, 10]} intensity={20} />
         <hemisphereLight
-          color={0x084382}
-          groundColor={0x084382}
-          intensity={80}
+          color={0x6FA8DC}
+          groundColor={0xEEEEEE}
+          intensity={6}
         />
         <SoftRain />
         <OnlyRings scale={[0.27, 0.27, 0.27]} effect={selectedRingEffect} />
