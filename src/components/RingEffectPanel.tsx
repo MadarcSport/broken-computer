@@ -6,8 +6,8 @@ interface RingEffectPanelProps {
 }
 
 const MOBILE_SHORT_LABELS: Record<RingEffectId, string> = {
+  materialOnly: "Mat",
   iridescentOilFilm: "Arc",
-  holographicFresnel: "Holo",
   dissolveRebuild: "Diss",
   chromaticRefractionFake: "Radar",
 };

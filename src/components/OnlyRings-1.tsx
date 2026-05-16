@@ -4,9 +4,9 @@ Command: npx gltfjsx@6.5.3 public/material/onlyRings-1.glb
 */
 
 import { useMemo, useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { MeshStandardMaterial, type Mesh } from "three";
+import { MeshStandardMaterial, Vector2, type Mesh } from "three";
 import {
   applyRingEffect,
   type RingEffectId,
@@ -30,24 +30,41 @@ interface ModelProps {
   scale?: Vec3;
   position?: Vec3;
   effect?: RingEffectId;
+  useTextures?: boolean;
 }
 
 export function Model(props: ModelProps) {
   const modelScale: Vec3 = props.scale ?? [1, 1, 1];
   const modelPosition: Vec3 = props.position ?? [0, 0, 0];
   const ringEffect: RingEffectId = props.effect ?? "iridescentOilFilm";
+  const enableTextures: boolean = props.useTextures ?? false;
   const { nodes } = useGLTF("/material/onlyRings-1.glb") as unknown as RingGLTF;
+  const ringTextures = useTexture({
+    diffuse: "/material/ringDiffuse.jpg",
+    bump: "/material/ringBump.jpg",
+    normal: "/material/ringNormal.jpg",
+  });
   const shaderRef = useRef<RingShaderTimeRef | null>(null);
 
   // One shared material keeps the effect synchronized across all 3 rings.
   const customMaterial = useMemo(() => {
+    const isMaterialOnly = ringEffect === "materialOnly";
+    const isRadarSweep = ringEffect === "chromaticRefractionFake";
+
     const material = new MeshStandardMaterial({
-      color: 0x06080d,
-      roughness: 0.3,
-      metalness: 0.9,
-      emissive: 0x06142b,
-      emissiveIntensity: 0.35,
+      // Use neutral base values in material-only mode so map details stay visible.
+      color: isMaterialOnly ? 0xffffff : isRadarSweep ? 0x7e8996 : 0x06080d,
+      roughness: isRadarSweep ? 0.34 : 0.3,
+      metalness: isRadarSweep ? 1.0 : 0.9,
+      emissive: isMaterialOnly ? 0x000000 : isRadarSweep ? 0x010203 : 0x06142b,
+      emissiveIntensity: isMaterialOnly ? 0 : isRadarSweep ? 0.06 : 0.35,
+      envMapIntensity: isRadarSweep ? 0.95 : 1.0,
       transparent: true,
+      map: enableTextures ? ringTextures.diffuse : null,
+      bumpMap: enableTextures ? ringTextures.bump : null,
+      bumpScale: enableTextures ? (isRadarSweep ? 0.08 : 0.16) : 0,
+      normalMap: enableTextures ? ringTextures.normal : null,
+      normalScale: isRadarSweep ? new Vector2(0.7, 0.7) : new Vector2(1, 1),
     });
 
     material.onBeforeCompile = (shader: RingShader) => {
@@ -55,11 +72,18 @@ export function Model(props: ModelProps) {
     };
 
     // Without a per-effect key, Three.js may reuse the first compiled shader.
-    material.customProgramCacheKey = () => `rings-${ringEffect}`;
+    material.customProgramCacheKey = () =>
+      `rings-${ringEffect}-${enableTextures ? "tex-on" : "tex-off"}`;
     material.needsUpdate = true;
 
     return material;
-  }, [ringEffect]);
+  }, [
+    enableTextures,
+    ringEffect,
+    ringTextures.bump,
+    ringTextures.diffuse,
+    ringTextures.normal,
+  ]);
 
   // Animate shader uniforms
   useFrame((_, delta) => {
@@ -93,3 +117,6 @@ export function Model(props: ModelProps) {
 }
 
 useGLTF.preload("/material/onlyRings-1.glb");
+useTexture.preload("/material/ringDiffuse.jpg");
+useTexture.preload("/material/ringBump.jpg");
+useTexture.preload("/material/ringNormal.jpg");

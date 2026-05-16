@@ -81,6 +81,7 @@ canvas {
   display: block;
   width: 100%;
   height: 100%;
+  pointer-events: auto;
 }
 
 .scene-root {
@@ -102,7 +103,8 @@ canvas {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   backdrop-filter: blur(5px);
-  z-index: 5;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .ring-effect-button {
@@ -138,6 +140,8 @@ canvas {
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 12px;
   backdrop-filter: blur(6px);
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .tint-button {
@@ -153,6 +157,31 @@ canvas {
 
 .tint-button.is-selected {
   border: 2px solid #ffffff;
+}
+
+.fall-panel {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.fall-button {
+  pointer-events: auto;
+  min-width: 92px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(11, 18, 28, 0.78);
+  color: #f3f7ff;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.fall-button:hover {
+  background: rgba(20, 40, 58, 0.9);
 }
 
 @media (max-width: 600px) {
@@ -182,5 +211,16 @@ canvas {
 
   .ring-label-short {
     display: inline;
+  }
+
+  .fall-panel {
+    top: 10px;
+    right: 8px;
+  }
+
+  .fall-button {
+    min-width: 74px;
+    padding: 8px 11px;
+    font-size: 0.84rem;
   }
 }
