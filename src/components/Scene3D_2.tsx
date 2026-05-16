@@ -104,9 +104,9 @@ function FallingPhysicsBurst({
         >
           <Sphere args={[0.1, 18, 18]}>
             <meshStandardMaterial
-              color="#ff4500"
-              emissive="#ffaa00"
-              emissiveIntensity={1.2}
+              color="#ff7a18"
+              emissive="#ffb03a"
+              emissiveIntensity={0.95}
               roughness={0.2}
               metalness={0.1}
               toneMapped={false}
@@ -288,7 +288,7 @@ export function Scene3D_2() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const cameraPosition: Vector3Tuple = isMobile ? [4.8, 3.2, 3.5] : [2, 2, 2];
+  const cameraPosition: Vector3Tuple = isMobile ? [2, 3.2, 3.5] : [2, 2, 2];
 
   const tintOptions = [
     { label: "Red", value: "#8f0808" },
