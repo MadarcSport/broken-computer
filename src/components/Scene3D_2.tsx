@@ -104,11 +104,12 @@ function FallingPhysicsBurst({
         >
           <Sphere args={[0.1, 18, 18]}>
             <meshStandardMaterial
-              color="#f7a623"
-              emissive="#ff6a00"
-              emissiveIntensity={0.35}
-              roughness={0.35}
-              metalness={0.25}
+              color="#ff4500"
+              emissive="#ffaa00"
+              emissiveIntensity={1.2}
+              roughness={0.2}
+              metalness={0.1}
+              toneMapped={false}
             />
           </Sphere>
         </RigidBody>
@@ -276,11 +277,23 @@ export function Scene3D_2() {
   const [selectedRingEffect, setSelectedRingEffect] =
     useState<RingEffectId>("iridescentOilFilm");
   const [burstIds, setBurstIds] = useState<number[]>([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const useRingTextures = true; // Change to true to apply ring maps.
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const cameraPosition: Vector3Tuple = isMobile ? [4.8, 3.2, 3.5] : [2, 2, 2];
+
   const tintOptions = [
     { label: "Red", value: "#8f0808" },
     { label: "Blue", value: "#02507b" },
-    { label: "White", value: "#161616" },
+    { label: "Black", value: "#1e1e1e" },
   ];
 
   const triggerFall = () => {
@@ -296,7 +309,7 @@ export function Scene3D_2() {
 
   return (
     <div className="scene-root">
-      <Canvas camera={{ position: [4, 2, 2], fov: 45 }}>
+      <Canvas camera={{ position: cameraPosition, fov: 60 }}>
         <ambientLight intensity={2} />
         <pointLight position={[10, 10, 10]} intensity={20} />
         <hemisphereLight

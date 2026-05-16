@@ -161,7 +161,7 @@ canvas {
 
 .fall-panel {
   position: absolute;
-  right: 16px;
+  left: 16px;
   top: 16px;
   pointer-events: none;
   z-index: 12;
@@ -172,8 +172,8 @@ canvas {
   min-width: 92px;
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  background: rgba(11, 18, 28, 0.78);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 51, 127, 0.78);
   color: #f3f7ff;
   font-weight: 700;
   letter-spacing: 0.03em;

@@ -5,15 +5,15 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>Computer broken cube</h1>
-        <p>MotherBoard in the cube geometry</p>
+        <h1>The Cube</h1>
+        {/* <p>MotherBoard in the cube geometry</p> */}
       </header>
       <div className="canvas-container">
-        <img
-      src="/material/background/marcBack04.jpg"
-      alt="Overlay"
-      className="canvas-overlay"
-    />
+        {/* <img
+          src="/material/background/marcBack04.jpg"
+          alt="Overlay"
+          className="canvas-overlay"
+        /> */}
         <Scene3D_2 />
       </div>
     </div>
